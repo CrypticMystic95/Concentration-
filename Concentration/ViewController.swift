@@ -27,6 +27,7 @@ class ViewController: UIViewController
     
     @IBOutlet private var cardButtons: [UIButton]!
     
+    
     @IBAction private func touchCard(_ sender: UIButton) {
         flipCount += 1
         if let cardNumber = cardButtons.index(of: sender) {
@@ -57,10 +58,33 @@ class ViewController: UIViewController
     private func emoji(for card: Card) -> String {
         if emoji[card.identifier] == nil, emojiChoices.count > 0 {
             emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)
+        } else if emojiChoices.count == 2 {
+            print("There are only 2 left")
         }
         return emoji[card.identifier] ?? "😑"
     }
     
+    private func restoreEmoji(for card: Card) -> String {
+        if emoji[card.identifier] == nil, emojiChoices.count == 2 {
+            
+        }
+        return emoji[card.identifier] ?? "😑"
+    }
+    
+
+    @IBAction func touchNewGame(_ sender: UIButton) {
+        flipCount = 0
+       
+        for index in cardButtons.indices {
+            let button = cardButtons[index]
+            let card = game.cards[index]
+            if card.isFaceUp {
+                button.setTitle("", for: UIControlState.normal)
+                button.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
+            }
+        }
+        
+    }
     
     // MARK: Handle Card Touch Behaviour
     /* @IBAction func touchCard(_ sender: UIButton) {
